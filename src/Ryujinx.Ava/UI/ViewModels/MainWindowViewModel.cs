@@ -25,13 +25,13 @@ using Ryujinx.HLE;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
-using Ryujinx.HLE.Ui;
+using Ryujinx.HLE.UI;
 using Ryujinx.Input.HLE;
 using Ryujinx.Modules;
-using Ryujinx.Ui.App.Common;
-using Ryujinx.Ui.Common;
-using Ryujinx.Ui.Common.Configuration;
-using Ryujinx.Ui.Common.Helper;
+using Ryujinx.UI.App.Common;
+using Ryujinx.UI.Common;
+using Ryujinx.UI.Common.Configuration;
+using Ryujinx.UI.Common.Helper;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
@@ -140,7 +140,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             InputManager inputManager,
             UserChannelPersistence userChannelPersistence,
             LibHacHorizonManager libHacHorizonManager,
-            IHostUiHandler uiHandler,
+            IHostUIHandler uiHandler,
             Action<bool> showLoading,
             Action<bool> switchToGameControl,
             Action<Control> setMainContent,
@@ -711,10 +711,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool StartGamesInFullscreen
         {
-            get => ConfigurationState.Instance.Ui.StartFullscreen;
+            get => ConfigurationState.Instance.UI.StartFullscreen;
             set
             {
-                ConfigurationState.Instance.Ui.StartFullscreen.Value = value;
+                ConfigurationState.Instance.UI.StartFullscreen.Value = value;
 
                 ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 
@@ -724,10 +724,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool ShowConsole
         {
-            get => ConfigurationState.Instance.Ui.ShowConsole;
+            get => ConfigurationState.Instance.UI.ShowConsole;
             set
             {
-                ConfigurationState.Instance.Ui.ShowConsole.Value = value;
+                ConfigurationState.Instance.UI.ShowConsole.Value = value;
 
                 ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 
@@ -769,10 +769,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public Glyph Glyph
         {
-            get => (Glyph)ConfigurationState.Instance.Ui.GameListViewMode.Value;
+            get => (Glyph)ConfigurationState.Instance.UI.GameListViewMode.Value;
             set
             {
-                ConfigurationState.Instance.Ui.GameListViewMode.Value = (int)value;
+                ConfigurationState.Instance.UI.GameListViewMode.Value = (int)value;
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsGrid));
@@ -784,9 +784,9 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool ShowNames
         {
-            get => ConfigurationState.Instance.Ui.ShowNames && ConfigurationState.Instance.Ui.GridSize > 1; set
+            get => ConfigurationState.Instance.UI.ShowNames && ConfigurationState.Instance.UI.GridSize > 1; set
             {
-                ConfigurationState.Instance.Ui.ShowNames.Value = value;
+                ConfigurationState.Instance.UI.ShowNames.Value = value;
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(GridSizeScale));
@@ -798,10 +798,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         internal ApplicationSort SortMode
         {
-            get => (ApplicationSort)ConfigurationState.Instance.Ui.ApplicationSort.Value;
+            get => (ApplicationSort)ConfigurationState.Instance.UI.ApplicationSort.Value;
             private set
             {
-                ConfigurationState.Instance.Ui.ApplicationSort.Value = (int)value;
+                ConfigurationState.Instance.UI.ApplicationSort.Value = (int)value;
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SortName));
@@ -814,7 +814,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             get
             {
-                return ConfigurationState.Instance.Ui.GridSize.Value switch
+                return ConfigurationState.Instance.UI.GridSize.Value switch
                 {
                     1 => 78,
                     2 => 100,
@@ -829,7 +829,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             get
             {
-                return ConfigurationState.Instance.Ui.GridSize.Value switch
+                return ConfigurationState.Instance.UI.GridSize.Value switch
                 {
                     1 => 120,
                     2 => ShowNames ? 210 : 150,
@@ -842,10 +842,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public int GridSizeScale
         {
-            get => ConfigurationState.Instance.Ui.GridSize;
+            get => ConfigurationState.Instance.UI.GridSize;
             set
             {
-                ConfigurationState.Instance.Ui.GridSize.Value = value;
+                ConfigurationState.Instance.UI.GridSize.Value = value;
 
                 if (value < 2)
                 {
@@ -886,10 +886,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool IsAscending
         {
-            get => ConfigurationState.Instance.Ui.IsAscendingOrder;
+            get => ConfigurationState.Instance.UI.IsAscendingOrder;
             private set
             {
-                ConfigurationState.Instance.Ui.IsAscendingOrder.Value = value;
+                ConfigurationState.Instance.UI.IsAscendingOrder.Value = value;
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SortMode));
@@ -945,7 +945,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public RendererHost RendererHostControl { get; private set; }
         public bool IsClosing { get; set; }
         public LibHacHorizonManager LibHacHorizonManager { get; internal set; }
-        public IHostUiHandler UiHandler { get; internal set; }
+        public IHostUIHandler UiHandler { get; internal set; }
         public bool IsSortedByFavorite => SortMode == ApplicationSort.Favorite;
         public bool IsSortedByTitle => SortMode == ApplicationSort.Title;
         public bool IsSortedByDeveloper => SortMode == ApplicationSort.Developer;
@@ -954,10 +954,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool IsSortedByType => SortMode == ApplicationSort.FileType;
         public bool IsSortedBySize => SortMode == ApplicationSort.FileSize;
         public bool IsSortedByPath => SortMode == ApplicationSort.Path;
-        public bool IsGridSmall => ConfigurationState.Instance.Ui.GridSize == 1;
-        public bool IsGridMedium => ConfigurationState.Instance.Ui.GridSize == 2;
-        public bool IsGridLarge => ConfigurationState.Instance.Ui.GridSize == 3;
-        public bool IsGridHuge => ConfigurationState.Instance.Ui.GridSize == 4;
+        public bool IsGridSmall => ConfigurationState.Instance.UI.GridSize == 1;
+        public bool IsGridMedium => ConfigurationState.Instance.UI.GridSize == 2;
+        public bool IsGridLarge => ConfigurationState.Instance.UI.GridSize == 3;
+        public bool IsGridHuge => ConfigurationState.Instance.UI.GridSize == 4;
 
         #endregion
 
@@ -1271,7 +1271,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void LoadConfigurableHotKeys()
         {
-            if (AvaloniaKeyboardMappingHelper.TryGetAvaKey((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.ShowUi, out var showUiKey))
+            if (AvaloniaKeyboardMappingHelper.TryGetAvaKey((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.ShowUI, out var showUiKey))
             {
                 ShowUiKey = new KeyGesture(showUiKey);
             }
@@ -1411,7 +1411,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             if (Program.PreviewerDetached)
             {
-                ConfigurationState.Instance.Ui.LanguageCode.Value = (string)languageCode;
+                ConfigurationState.Instance.UI.LanguageCode.Value = (string)languageCode;
                 ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
             }
         }
