@@ -36,6 +36,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1006,7 +1007,14 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             if (arg is ApplicationData app)
             {
-                return string.IsNullOrWhiteSpace(_searchText) || app.TitleName.ToLower().Contains(_searchText.ToLower());
+                if (string.IsNullOrWhiteSpace(_searchText))
+                {
+                    return true;
+                }
+
+                CompareInfo compareInfo = CultureInfo.CurrentCulture.CompareInfo;
+
+                return compareInfo.IndexOf(app.TitleName, _searchText, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
             }
 
             return false;
