@@ -188,7 +188,10 @@ namespace Ryujinx.UI
                 : IntegrityCheckLevel.None;
 
             // Instantiate GUI objects.
-            ApplicationLibrary = new ApplicationLibrary(_virtualFileSystem, checkLevel);
+            ApplicationLibrary = new ApplicationLibrary(_virtualFileSystem, checkLevel)
+            {
+                DesiredLanguage = ConfigurationState.Instance.System.Language,
+            };
             _uiHandler = new GtkHostUIHandler(this);
             _deviceExitStatus = new AutoResetEvent(false);
 
@@ -326,7 +329,6 @@ namespace Ryujinx.UI
             _hideUI.Label = _hideUI.Label.Replace("SHOWUIKEY", ConfigurationState.Instance.Hid.Hotkeys.Value.ShowUI.ToString());
 
             UpdateColumns();
-            UpdateGameTable();
 
             ConfigurationState.Instance.UI.GameDirs.Event += (sender, args) =>
             {
@@ -767,7 +769,8 @@ namespace Ryujinx.UI
 
             Thread applicationLibraryThread = new(() =>
             {
-                ApplicationLibrary.LoadApplications(ConfigurationState.Instance.UI.GameDirs, ConfigurationState.Instance.System.Language);
+                ApplicationLibrary.DesiredLanguage = ConfigurationState.Instance.System.Language;
+                ApplicationLibrary.LoadApplications(ConfigurationState.Instance.UI.GameDirs);
 
                 _updatingGameTable = false;
             })
