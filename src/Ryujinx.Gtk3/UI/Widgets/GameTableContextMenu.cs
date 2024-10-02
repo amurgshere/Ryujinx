@@ -75,7 +75,7 @@ namespace Ryujinx.UI.Widgets
             _extractLogoMenuItem.Sensitive = hasNca;
 
             _createShortcutMenuItem.Sensitive = !ReleaseInformation.IsFlatHubBuild;
-            _trimXCIMenuItem.Sensitive = Ryujinx.Common.Utilities.XCIFileTrimmer.CanTrim(_titleFilePath, new XCIFileTrimmerLog(_parent));
+            _trimXCIMenuItem.Sensitive = Ryujinx.Common.Utilities.XCIFileTrimmer.CanTrim(_applicationData.Path, new XCIFileTrimmerLog());
 
             PopupAtPointer(null);
         }
@@ -666,12 +666,12 @@ namespace Ryujinx.UI.Widgets
 
         private void TrimXCI_Clicked(object sender, EventArgs args)
         {
-            if (_titleFilePath == null)
+            if (_applicationData?.Path == null)
             {
                 return;
             }
 
-            var trimmer = new Ryujinx.Common.Utilities.XCIFileTrimmer(_titleFilePath, new XCIFileTrimmerLog(_parent));
+            var trimmer = new Ryujinx.Common.Utilities.XCIFileTrimmer(_applicationData.Path, new XCIFileTrimmerLog());
 
             if (trimmer.CanBeTrimmed)
             {
@@ -690,7 +690,7 @@ namespace Ryujinx.UI.Widgets
                 {
                     Thread xciFileTrimmerThread = new(() =>
                     {
-                        _parent.StartProgress($"Trimming file '{_titleFilePath}");
+                        _parent.StartProgress($"Trimming file '{_applicationData.Path}");
 
                         try
                         {
@@ -698,7 +698,7 @@ namespace Ryujinx.UI.Widgets
 
                             Gtk.Application.Invoke(delegate
                             {
-                                ProcessTrimResult(_titleFilePath, oeprationOutcome);
+                                ProcessTrimResult(_applicationData.Path, oeprationOutcome);
                             });
                         }
                         finally
