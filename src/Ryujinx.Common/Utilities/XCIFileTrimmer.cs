@@ -174,7 +174,9 @@ namespace Ryujinx.Common.Utilities
                             Log?.Write(LogType.Info, $"Checked at {readSizeB / (double)XCIFileTrimmer.BytesInAMegabyte / time.TotalSeconds:N} Mb/sec");
                         }
 
-                        if (freeSpaceValid) Log?.Write(LogType.Info, "Free space is valid");
+                        if (freeSpaceValid)
+                            Log?.Write(LogType.Info, "Free space is valid");
+                            
                         this._freeSpaceValid = freeSpaceValid;
                     }
                     finally
@@ -475,7 +477,7 @@ namespace Ryujinx.Common.Utilities
             var cartSizeId = _binaryReader.ReadByte();
             if (!_cartSizesGB.TryGetValue(cartSizeId, out long cartSizeNGB))
             {
-                Log?.Write(LogType.Error, "The source file doesn't look like an XCI file as the Cartridge Size is incorrect");
+                Log?.Write(LogType.Error, $"The source file doesn't look like an XCI file as the Cartridge Size is incorrect (0x{cartSizeId:X2})");
                 return false;
             }
             this._cartSizeB = cartSizeNGB * XCIFileTrimmer.CartSizeMBinFormattedGB * XCIFileTrimmer.BytesInAMegabyte;
