@@ -1,15 +1,13 @@
-## Notice
-
-As of now, the [ryujinx-mirror/ryujinx](https://github.com/ryujinx-mirror/ryujinx) repository serves simply as a downstream fork of the original Ryujinx project, and won't be accepting any new changes until further information arises.
+As of now, the [ryujinx-mirror/ryujinx](https://github.com/ryujinx-mirror/ryujinx) repository serves as a downstream hard-fork of the original Ryujinx project. For the time being, this fork won't be accepting any new *major* changes until further information arises. We have reconstructed the essential build infrastructure, and you can download nightly binaries for Windows, Linux, and MacOS from the [latest release](https://github.com/ryujinx-mirror/ryujinx/releases/latest).
 
 > [!NOTE]
-> This mirror is not affiliated with the original Ryujinx project, or Nintendo whatsoever.
+> This fork is not affiliated with the **original** Ryujinx project, or Nintendo whatsoever.
 
 ### Current Goals
 
-* To be as safe as possible, remove all in-app and meta references to Patreon, Discord, `ryujinx.org` etc while keeping full attribution of original authors and contributors in-tact.
+* ☑️ Reconstruct basic build infrastructure & workflows for this repository, based on revision hashes as opposed to semver releases (for now)
+* ☑️ To be as safe as possible, remove all in-app and meta references to Patreon, Discord, `ryujinx.org` etc while keeping full attribution of original authors and contributors in-tact.
 * Keep 'branding' as pure and faithful to the original project as possible. 
-* Reconstruct basic build infrastructure & workflows for this repository, based on revision hashes as opposed to semver releases (for now)
 
 ___
 
